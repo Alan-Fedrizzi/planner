@@ -1,7 +1,10 @@
 import { tv } from "tailwind-variants/lite";
 
 export const inputStyles = tv({
-  base: "w-full h-16 flex-row items-center gap-2 rounded-lg px-4",
+  slots: {
+    base: "w-full h-16 flex-row items-center gap-2 rounded-lg px-4",
+    field: "flex-1 text-zinc-100 text-lg font-regular",
+  },
   variants: {
     variant: {
       primary: "",
@@ -12,8 +15,4 @@ export const inputStyles = tv({
   defaultVariants: {
     variant: "primary",
   },
-});
-
-export const fieldStyles = tv({
-  base: "flex-1 text-zinc-100 text-lg font-regular",
 });

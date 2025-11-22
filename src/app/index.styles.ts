@@ -15,5 +15,6 @@ export const indexStyles = tv({
     buttonContainer: "border-b py-3 border-zinc-800",
     policyText: "text-zinc-500 font-regular text-center text-base",
     policyTextInner: "text-zinc-300 underline",
+    modalCalendarContainer: "gap-4 mt-4",
   },
 });

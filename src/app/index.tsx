@@ -1,5 +1,7 @@
 import { Button } from "@/components/Button";
+import { Calendar } from "@/components/Calendar";
 import { Input } from "@/components/Input";
+import { Modal } from "@/components/Modal";
 import { colors } from "@/styles/colors";
 import {
   ArrowRight,
@@ -9,7 +11,7 @@ import {
   UserRoundPlus,
 } from "lucide-react-native";
 import { useState } from "react";
-import { Image, ScrollView, Text, View } from "react-native";
+import { Image, Keyboard, ScrollView, Text, View } from "react-native";
 import { indexStyles } from "./index.styles";
 
 const {
@@ -21,6 +23,7 @@ const {
   buttonContainer,
   policyText,
   policyTextInner,
+  modalCalendarContainer,
 } = indexStyles();
 
 enum StepForm {
@@ -28,10 +31,19 @@ enum StepForm {
   ADD_EMAIL = 2,
 }
 
+enum PageModal {
+  NONE = 0,
+  CALENDAR = 1,
+  GUESTS = 2,
+}
+
 // tem que exportar default para o expo router reconhecer
 export default function Index() {
   // DATA
   const [stepForm, setStepForm] = useState(StepForm.TRIP_DETAILS);
+
+  // MODAL
+  const [showModal, setShowModal] = useState(PageModal.NONE);
 
   function handleNextStepForm() {
     if (stepForm === StepForm.TRIP_DETAILS) {
@@ -74,6 +86,12 @@ export default function Index() {
           <Input.Field
             placeholder="Quando?"
             editable={stepForm === StepForm.TRIP_DETAILS}
+            onFocus={() => Keyboard.dismiss()}
+            onPressIn={() =>
+              stepForm === StepForm.TRIP_DETAILS &&
+              setShowModal(PageModal.CALENDAR)
+            }
+            showSoftInputOnFocus={false}
           />
         </Input>
 
@@ -115,16 +133,34 @@ export default function Index() {
         </Text>
         .
       </Text>
+
+      <Modal
+        title="Selecionar datas"
+        subtitle="Selecione a data de ida e volta da viagem"
+        visible={showModal === PageModal.CALENDAR}
+        onClose={() => {
+          setShowModal(PageModal.NONE);
+        }}
+      >
+        <View className={modalCalendarContainer()}>
+          <Calendar />
+
+          <Button onPress={() => setShowModal(PageModal.NONE)}>
+            <Button.ButtonText>Confirmar</Button.ButtonText>
+          </Button>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
 
 // aula 2 - refatorar os componentes usando tailwind-variants
-// parei em 7min
-// falta 2:21
+// parei em 43min
+// falta 1:45
 
 // cd mobile
 // npm start
 
+// server/api.ts colocar o IP do servidor
 // cd server
 // npm run dev

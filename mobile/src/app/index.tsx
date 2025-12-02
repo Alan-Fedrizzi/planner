@@ -393,8 +393,8 @@ export default function Index() {
 }
 
 // aula 3 -
-// parei em
-// falta
+// parei em 41min
+// falta 1:38
 
 // cd mobile
 // npm start

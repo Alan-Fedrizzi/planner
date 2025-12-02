@@ -13,3 +13,14 @@ export const tripStyles = tv({
     modalUpdateRemove: "text-red-400 text-center mt-6",
   },
 });
+
+export const activitiesStyles = tv({
+  slots: {
+    container: "flex-1",
+    top: "w-full flex-row mt-5 mb-6 items-center",
+    title: "text-zinc-50 text-2xl font-semibold flex-1",
+    newActivityModalContainer: "mt-4 mb-3",
+    newActivityModalInputs: "w-full mt-2 flex-row gap-2",
+    newActivityModalInput: "flex-1",
+  },
+});

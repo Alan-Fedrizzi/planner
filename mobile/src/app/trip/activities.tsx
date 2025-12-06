@@ -1,7 +1,10 @@
+import { Activity, ActivityProps } from "@/components/Activity/activity";
 import { Button } from "@/components/Button";
 import { Calendar } from "@/components/Calendar";
 import { Input } from "@/components/Input";
+import { Loading } from "@/components/Loading";
 import { Modal } from "@/components/Modal";
+import { activitiesServer } from "@/server/activities-server";
 import { colors } from "@/styles/colors";
 import dayjs from "dayjs";
 import {
@@ -11,15 +14,18 @@ import {
   Tag,
 } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { Alert, Keyboard, Text, View } from "react-native";
+import { Alert, Keyboard, SectionList, Text, View } from "react-native";
 import { TripData } from "./[id]";
 import { activitiesStyles } from "./trip.styles";
-import { activitiesServer } from "@/server/activities-server";
 
 const {
   container,
   top,
   title,
+  listContainer,
+  listDay,
+  listDayWeek,
+  listEmptyText,
   newActivityModalContainer,
   newActivityModalInputs,
   newActivityModalInput,
@@ -33,6 +39,14 @@ enum ActivitiesModal {
 
 type Props = {
   tripDetails: TripData;
+};
+
+type TripActivities = {
+  title: {
+    dayNumber: number;
+    dayName: string;
+  };
+  data: ActivityProps[];
 };
 
 // como não exportamos como default, não é rota
@@ -49,6 +63,9 @@ export function Activities({ tripDetails }: Props) {
   const [activityTitle, setActivityTitle] = useState("");
   const [activityDate, setActivityDate] = useState("");
   const [activityHour, setActivityHour] = useState("");
+
+  // LISTS
+  const [tripActivities, setTripActivities] = useState<TripActivities[]>([]);
 
   function resetNewActivityFields() {
     setActivityDate("");
@@ -96,7 +113,22 @@ export function Activities({ tripDetails }: Props) {
         tripDetails.id
       );
 
-      console.log(activities);
+      const activitiesToSectionList = activities.map((dayActivity) => ({
+        title: {
+          dayNumber: dayjs(dayActivity.date).date(),
+          dayName: dayjs(dayActivity.date).format("dddd").replace("-feira", ""),
+        },
+        data: dayActivity.activities.map((activity) => ({
+          id: activity.id,
+          title: activity.title,
+          hour: dayjs(activity.occurs_at).format("hh[:]mm"),
+          isBefore: dayjs(activity.occurs_at).isBefore(dayjs()),
+          // para testar
+          // isBefore: dayjs("2023-12-12").isBefore(dayjs()),
+        })),
+      }));
+
+      setTripActivities(activitiesToSectionList);
     } catch (error) {
       console.log(error);
       Alert.alert("Atividades", "Não foi possível carregar as atividades.");
@@ -119,6 +151,32 @@ export function Activities({ tripDetails }: Props) {
           <Button.ButtonText>Nova atividade</Button.ButtonText>
         </Button>
       </View>
+
+      {isLoadingActivities ? (
+        <Loading />
+      ) : (
+        <SectionList
+          sections={tripActivities}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <Activity data={item} />}
+          renderSectionHeader={({ section }) => (
+            <View className={listContainer()}>
+              <Text className={listDay()}>
+                Dia {section.title.dayNumber + " "}
+                <Text className={listDayWeek()}>{section.title.dayName}</Text>
+              </Text>
+
+              {section.data.length === 0 && (
+                <Text className={listEmptyText()}>
+                  Nenhuma atividade cadastrada nessa data.
+                </Text>
+              )}
+            </View>
+          )}
+          contentContainerClassName="gap-3 pb-48"
+          showsVerticalScrollIndicator={false}
+        />
+      )}
 
       {/* cadastrar atividade */}
       <Modal

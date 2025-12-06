@@ -393,8 +393,8 @@ export default function Index() {
 }
 
 // aula 3 -
-// parei em 41min
-// falta 1:38
+// parei em 1:22min
+// falta 58
 
 // cd mobile
 // npm start
@@ -403,3 +403,9 @@ export default function Index() {
 // cd server
 // npm run dev
 // npm run db:studio
+
+// para funcionar deep link
+// precisamos de build de desenvolvimento
+// npx expo prebuild
+// npx expo run:android
+// se precisar: npx expo start --clear

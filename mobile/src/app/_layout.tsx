@@ -24,7 +24,6 @@ export default function Layout() {
   }
 
   return (
-    // SafeAreaView coloquei por conta, no curso ele não coloca (ainda...)
     <SafeAreaView className={layoutStyles()}>
       <StatusBar
         barStyle="light-content"

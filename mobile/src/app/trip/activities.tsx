@@ -49,8 +49,6 @@ type TripActivities = {
   data: ActivityProps[];
 };
 
-// como não exportamos como default, não é rota
-// é parte da interface
 export function Activities({ tripDetails }: Props) {
   // MODAL
   const [showModal, setShowModal] = useState(ActivitiesModal.NONE);
@@ -123,8 +121,6 @@ export function Activities({ tripDetails }: Props) {
           title: activity.title,
           hour: dayjs(activity.occurs_at).format("hh[:]mm"),
           isBefore: dayjs(activity.occurs_at).isBefore(dayjs()),
-          // para testar
-          // isBefore: dayjs("2023-12-12").isBefore(dayjs()),
         })),
       }));
 
@@ -213,7 +209,6 @@ export function Activities({ tripDetails }: Props) {
               <Clock color={colors.zinc[400]} size={20} />
               <Input.Field
                 placeholder="Horário?"
-                // para remover pontos e vírgulas
                 onChangeText={(text) =>
                   setActivityHour(text.replace(".", "").replace(",", ""))
                 }

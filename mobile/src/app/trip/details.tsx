@@ -26,8 +26,6 @@ type Props = {
   tripId: string;
 };
 
-// como não exportamos como default, não é rota
-// é parte da interface
 export function Details({ tripId }: Props) {
   // MODAL
   const [showNewLinkModal, setShowNewLinkModal] = useState(false);

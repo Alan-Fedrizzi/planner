@@ -76,7 +76,6 @@ export default function Trip() {
     try {
       setIsLoadingTrip(true);
 
-      // se tem participant, quer dizer que acessei o apppelo deep link, abre modal para confirmar viajem
       if (!tripParams.participant) {
         setShowModal(TripModal.CONFIRM_ATTENDANCE);
       }
@@ -106,7 +105,6 @@ export default function Trip() {
       });
     } catch (error) {
       console.log(error);
-      // se der errado, redirect to index
       Alert.alert(
         "Detalhes da viagem",
         "Erro ao carregar os detalhes da viagem.",
@@ -347,7 +345,6 @@ export default function Trip() {
       <Modal
         title="Confirmar presença"
         visible={showModal === TripModal.CONFIRM_ATTENDANCE}
-        // sem o onClose, só fecha quando o usuário confirma
       >
         <View className={modalConfirmContainer()}>
           <Text className={modalConfirmText()}>

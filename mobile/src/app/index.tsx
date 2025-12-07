@@ -69,7 +69,6 @@ export default function Index() {
   const [showModal, setShowModal] = useState(PageModal.NONE);
 
   function handleNextStepForm() {
-    // tem o onde e quando preenchidos?
     if (
       destination.trim().length === 0 ||
       !selectedDate.startsAt ||
@@ -81,7 +80,6 @@ export default function Index() {
       );
     }
 
-    // destino tem que ter pelo menos 4 caracteres
     if (destination.length < 4) {
       return Alert.alert(
         "Detalhes da viagem",
@@ -110,7 +108,6 @@ export default function Index() {
       startsAt: selectedDate.startsAt,
       endsAt: selectedDate.endsAt,
       selectedDay,
-      // selectedDay: selectedDay
     });
 
     setSelectedDate(dates);
@@ -123,12 +120,10 @@ export default function Index() {
   }
 
   function handleAddEmail() {
-    // verificar se o email é válido
     if (!validateInput.email(emailToInvite)) {
       return Alert.alert("Convidado", "E-mail inválido!");
     }
 
-    // se email já existe
     const emailAlreadyExists = emailsToInvite.find(
       (email) => email === emailToInvite
     );
@@ -144,8 +139,6 @@ export default function Index() {
   async function saveTrip(tripId: string) {
     try {
       await tripStorage.save(tripId);
-      // dá erro
-      // router.navigate(`/trip/${tripId}`);
       router.navigate({ pathname: "/trip/[id]", params: { id: tripId } });
     } catch (error) {
       console.log(error);
@@ -170,8 +163,6 @@ export default function Index() {
       Alert.alert("Nova viagem", "Viagem criada com sucesso!", [
         {
           text: "OK. Continuar.",
-          // se não passar parêmetro, pode ser
-          // onPress: saveTrip,
           onPress: () => saveTrip(newTrip.tripId),
         },
       ]);
@@ -179,25 +170,20 @@ export default function Index() {
       console.log(error);
       Alert.alert("Nova viagem", "Não foi possível criar nova viagem.");
       setIsCreatingTrip(false);
-      // setamos o loading para false aqui, pois se der bom, redireciona para outra tela.
     }
   }
 
   async function getTrip() {
     try {
-      // já inicia como true esse loading
-      // setIsGettingTrip(true);
       const tripID = await tripStorage.get();
 
       if (!tripID) {
-        // se não tiver trip, segue para tela index
         return setIsGettingTrip(false);
       }
 
       const trip = await tripServer.getById(tripID);
 
       if (trip) {
-        // return router.navigate("/trip/" + trip.id)
         router.navigate({ pathname: "/trip/[id]", params: { id: trip.id } });
       }
     } catch (error) {
@@ -329,10 +315,7 @@ export default function Index() {
         <View className={modalCalendarContainer()}>
           <Calendar
             onDayPress={handleSelectDate}
-            // como vamos repassar o que vem na função, podemos usar o atalho
-            // onDayPress={(date: DateData) => handleSelectDate(date)}
             markedDates={selectedDate.dates}
-            // dayjs().toISOString() retorna a data atual, para não poder selecionar uma data do passado
             minDate={dayjs().toISOString()}
           />
 
@@ -391,22 +374,3 @@ export default function Index() {
     </ScrollView>
   );
 }
-
-// cd mobile
-// npm start
-
-// server/api.ts colocar o IP do servidor
-// cd server
-// npm run dev
-// npm run db:studio
-// se não abrir, ver server/prisma/db.sqlite (abrir com extensão SQLite Viewer)
-
-// não funcionou para mim... dá erro no build development
-// para funcionar deep link
-// precisamos de build de desenvolvimento
-// npx expo prebuild
-// npx expo run:android
-// se precisar: npx expo start --clear
-// para abrir o app no simulador
-// o "planner" tem que ser o scheme que está no app.json
-// npx uri-scheme open "planner>//trip/[tripId]?participant=[participantId]" -- android

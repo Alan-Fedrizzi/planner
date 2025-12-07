@@ -36,8 +36,7 @@ function Field({ ...props }: TextInputProps) {
     <TextInput
       className={field()}
       placeholderTextColor={colors.zinc[400]}
-      cursorColor={colors.zinc[100]} // só para android
-      // para ios
+      cursorColor={colors.zinc[100]}
       selectionColor={Platform.OS === "ios" ? colors.zinc[100] : undefined}
       {...props}
     />

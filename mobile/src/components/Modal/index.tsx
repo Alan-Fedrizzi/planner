@@ -34,7 +34,6 @@ export function Modal({
         className={blur()}
         intensity={7}
         tint="dark"
-        // no android é experimental
         experimentalBlurMethod="dimezisBlurView"
       >
         <View className={container()}>

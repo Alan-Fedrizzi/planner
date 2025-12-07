@@ -76,6 +76,11 @@ export default function Trip() {
     try {
       setIsLoadingTrip(true);
 
+      // se tem participant, quer dizer que acessei o apppelo deep link, abre modal para confirmar viajem
+      if (!tripParams.participant) {
+        setShowModal(TripModal.CONFIRM_ATTENDANCE);
+      }
+
       if (!tripParams.id) {
         return router.back();
       }

@@ -392,10 +392,6 @@ export default function Index() {
   );
 }
 
-// aula 3 -
-// parei em 1:22min
-// falta 58
-
 // cd mobile
 // npm start
 
@@ -403,9 +399,14 @@ export default function Index() {
 // cd server
 // npm run dev
 // npm run db:studio
+// se não abrir, ver server/prisma/db.sqlite (abrir com extensão SQLite Viewer)
 
+// não funcionou para mim... dá erro no build development
 // para funcionar deep link
 // precisamos de build de desenvolvimento
 // npx expo prebuild
 // npx expo run:android
 // se precisar: npx expo start --clear
+// para abrir o app no simulador
+// o "planner" tem que ser o scheme que está no app.json
+// npx uri-scheme open "planner>//trip/[tripId]?participant=[participantId]" -- android
